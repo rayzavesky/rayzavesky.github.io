@@ -1,0 +1,119 @@
+<css>
+
+/* BASE STYLE AND CONTAINER */
+
+  background-color: #d9d9d9;
+
+body {
+  margin: 0;
+  background-color: #d9d9d9;
+  color: #d9d9d9;
+  font-family: Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+  font-family: Helvetica, Arial, sans-serif; /* sans-serif headings:contentReference[oaicite:14]{index=14} */
+  margin-bottom: 0.5em;
+}
+
+container {
+  width: 95%;
+  max-width: 800px;     /* cap width (browsers will enforce max-width over width:contentReference[oaicite:15]{index=15}) */
+  margin: 2rem auto;    /* center horizontally */
+  background-color: #ffffff;
+  padding: 2rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    p.double {border-style: double;}
+}
+
+/* NAVIGATION BAR */
+
+nav {
+  background: #fff;
+  padding: 1rem 0;
+  border-bottom: 2px dotted #eee;
+    p.dotted {border-style: dotted;}
+    
+}
+nav ul {
+  list-style: none;        /* remove bullets:contentReference[oaicite:19]{index=19} */
+  display: flex;           /* lay out items in a row:contentReference[oaicite:20]{index=20} */
+  justify-content: center; /* center links horizontally */
+  margin: 0;
+  padding: 0;
+    
+}
+nav li {
+  margin: 0 1rem;
+}
+nav a {
+  text-decoration: none;
+  color: #c81d25;          /* retro red accent for links/buttons */
+  font-weight: bold;
+}
+nav a:hover {
+  color: #f77f00; /* change to orange on hover for a “pop” effect */
+}
+
+/* CONTENT SECTIONS */
+
+section {
+  margin: 2rem 0;
+}
+section h2 {
+  font-size: 1.5rem;
+  margin-top: 0;
+}
+section p, section li {
+  font-size: 1rem;
+}
+
+/* TABLE STYLES */
+
+table {
+  width: 50%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+table th {
+  background: #fff; /* use accent color for header */
+  color: black;
+  padding: 0.5em;
+}
+table td, table th {
+  border: 1px solid #ccc;
+  padding: 0.5em;
+}
+
+/* FOOTER */
+
+footer {
+  background: #fff;
+  text-align: center;
+  padding: 1rem 0;
+  border-top: 2px solid #eee;
+  font-size: 0.9rem;
+}
+.footer-link, .link-box {
+  margin: 0.5rem 0;
+}
+footer a {
+  color: #c81d25;
+  text-decoration: none;
+}
+footer a:hover {
+  color: #f77f00;
+}
+
+redacted-text {
+  background-color: black; /* Or the color of your page background */
+  color: black;            /* Make the text color match the background */
+  cursor: help;            /* Optional: changes cursor to indicate an action */
+}
+redacted-text:hover {
+  color: white;            /* Optional: reveals text on hover with a different color */
+}
+
+
+
