@@ -2,248 +2,169 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>United States Product Office</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>7-Point B&W Timeline</title>
+
   <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #000;
-      background-color: #fff;
-      margin: 40px;
+      font-family: "Courier New", Courier, monospace;
+      background: #ffffff;
+      color: #000000;
+      line-height: 1.5;
     }
 
-    /* 1. STATE HOLDERS (Hidden) */
-    .radio-state {
-      display: none;
+    /* Layout */
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 80px 20px;
     }
 
-    /* --- TIMELINE CONTAINER --- */
-    .timeline-container {
-      position: relative;
-      width: 100%;
-      height: 220px;
-      margin-bottom: 40px;
-      background: #fff;
-      border: 1px solid #000;
-      padding: 0 40px;
-      box-sizing: border-box;
-      display: flex;
-      align-items: center;
-    }
-
-    .timeline-axis {
-      position: absolute;
-      left: 40px;
-      right: 40px;
-      height: 2px;
-      background-color: #000;
-    }
-
-    /* Base marker style */
-    .event-marker {
-      position: absolute;
-      background-color: #000;
-      top: 50%;
-      cursor: pointer;
-      transition: transform 0.2s, background-color 0.2s;
-    }
-
-    .event-marker.point {
-      width: 12px;
-      height: 12px;
-      border-radius: 2px;
-      transform: translate(-50%, -50%);
-    }
-
-    .event-marker.range {
-      height: 12px;
-      transform: translateY(-50%);
-    }
-
-    .reset-trigger {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 1;
-    }
-    .timeline-axis, .event-marker {
-      z-index: 2;
-    }
-
-    /* --- HORIZONTAL & CENTERED LABELS --- */
-    .label {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: nowrap;
-      font-size: 11px;
-      font-weight: 600;
-      color: #000;
+    /* Header / Title */
+    .title {
       text-align: center;
+      margin-bottom: 60px;
     }
 
-    .label.top { bottom: 18px; }
-    .label.bottom { top: 18px; }
-
-    /* --- HIGHLIGHT ACTIVE MARKERS (1 to 7) --- */
-    #point1:checked ~ .timeline-container .marker1,
-    #point2:checked ~ .timeline-container .marker2,
-    #point3:checked ~ .timeline-container .marker3,
-    #point4:checked ~ .timeline-container .marker4,
-    #point5:checked ~ .timeline-container .marker5,
-    #point6:checked ~ .timeline-container .marker6,
-    #point7:checked ~ .timeline-container .marker7 {
-      background-color: #fff;
-      border: 2px solid #000;
-      box-sizing: border-box;
-    }
-
-    #point1:checked ~ .timeline-container .marker1 .label,
-    #point2:checked ~ .timeline-container .marker2 .label,
-    #point3:checked ~ .timeline-container .marker3 .label,
-    #point4:checked ~ .timeline-container .marker4 .label,
-    #point5:checked ~ .timeline-container .marker5 .label,
-    #point6:checked ~ .timeline-container .marker6 .label,
-    #point7:checked ~ .timeline-container .marker7 .label {
-      font-size: 12px;
-      text-decoration: underline;
-    }
-
-    /* --- BLACK AND WHITE TABLE --- */
-    .history-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-      border: 1px solid #000;
-    }
-
-    .history-table th {
-      background-color: #000;
-      color: #fff;
-      text-align: left;
-      font-weight: 600;
-      font-size: 13px;
-      padding: 12px 15px;
+    .title h1 {
+      font-size: 20px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
     }
 
-    .history-table td {
-      padding: 12px 15px;
+    .title p {
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    /* Hero Message */
+    .hero {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .hero h2 {
+      font-size: 16px;
+      font-weight: normal;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-top: 1px solid #000;
       border-bottom: 1px solid #000;
+      display: inline-block;
+      padding: 10px 20px;
+    }
+
+    /* Article */
+    .article {
       font-size: 13px;
-      color: #000;
     }
 
-    .history-table tr:last-child td {
-      border-bottom: none;
+    .article p {
+      margin-bottom: 16px;
     }
 
-    .history-table tr:nth-child(even) {
-      background-color: #f5f5f5;
+    .article .meta {
+      font-size: 11px;
+      margin-bottom: 30px;
     }
 
-    /* --- PURE CSS FILTER LOGIC (1 to 7) --- */
-    .history-table tr.event-row {
-      display: none;
+    /* Call to Action */
+    .cta {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid #000;
+      font-size: 12px;
     }
 
-    #show-all:checked ~ .history-table tr.event-row {
-      display: table-row;
+    .cta strong {
+      display: block;
+      margin-bottom: 10px;
     }
 
-    #point1:checked ~ .history-table tr.row-point1,
-    #point2:checked ~ .history-table tr.row-point2,
-    #point3:checked ~ .history-table tr.row-point3,
-    #point4:checked ~ .history-table tr.row-point4,
-    #point5:checked ~ .history-table tr.row-point5,
-    #point6:checked ~ .history-table tr.row-point6,
-    #point7:checked ~ .history-table tr.row-point7 {
-      display: table-row;
+    /* Footer */
+    .footer {
+      margin-top: 80px;
+      font-size: 11px;
+      text-align: center;
+      border-top: 1px solid #000;
+      padding-top: 20px;
     }
+
   </style>
 </head>
 <body>
 
-  <input type="radio" id="show-all" name="timeline-filter" class="radio-state" checked>
-  <input type="radio" id="point1" name="timeline-filter" class="radio-state">
-  <input type="radio" id="point2" name="timeline-filter" class="radio-state">
-  <input type="radio" id="point3" name="timeline-filter" class="radio-state">
-  <input type="radio" id="point4" name="timeline-filter" class="radio-state">
-  <input type="radio" id="point5" name="timeline-filter" class="radio-state">
-  <input type="radio" id="point6" name="timeline-filter" class="radio-state">
-  <input type="radio" id="point7" name="timeline-filter" class="radio-state">
+  <div class="container">
 
-  <div class="timeline-container">
-    <label for="show-all" class="reset-trigger"></label>
-    <div class="timeline-axis"></div>
+    <!-- Title -->
+    <div class="title">
+      <h1>United States Product Office</h1>
+      <p>Archival Record — Public Access Copy</p>
+    </div>
 
-    <label for="point1" class="event-marker point marker1" style="left: 10%;">
-      <span class="label top">Collected</span>
-    </label>
+    <!-- Hero -->
+    <div class="hero">
+      <h2>THIS ORGANIZATION MAY HAVE EXISTED</h2>
+    </div>
 
-    <label for="point2" class="event-marker point marker2" style="left: 23%;">
-      <span class="label bottom">Buried</span>
-    </label>
+    <!-- Article -->
+    <div class="article">
 
-    <label for="point3" class="event-marker range marker3" style="left: 36%; width: 10%;">
-      <span class="label top">Painted</span>
-    </label>
+      <div class="meta">
+        Document Ref: USPO-ARC-001<br>
+        Status: Incomplete<br>
+        Date: Unknown
+      </div>
 
-    <label for="point4" class="event-marker point marker4" style="left: 55%;">
-      <span class="label bottom">Published</span>
-    </label>
+      <p>
+        Very little is currently known about the United States Product Office.
+        Fragmentary documents suggest it operated as a small, centralized design group sometime in the mid-20th century.
+      </p>
 
-    <label for="point5" class="event-marker point marker5" style="left: 68%;">
-      <span class="label top">Damaged</span>
-    </label>
+      <p>
+        Its stated purpose appears to have been the development of domestic objects—tools, fixtures, and systems—designed with an unusual level of consistency and intent.
+      </p>
 
-    <label for="point6" class="event-marker range marker6" style="left: 78%; width: 8%;">
-      <span class="label bottom">Lost</span>
-    </label>
+      <p>
+        Only a small number of artifacts have been identified.
+        Among them: a modular steel mounting bracket labeled "USPO-212" and references to a standardized pouring vessel system.
+      </p>
 
-    <label for="point7" class="event-marker point marker7" style="left: 92%;">
-      <span class="label top">Auctioned</span>
-    </label>
+      <p>
+        No complete records have been recovered. Most materials are partial, degraded, or internally inconsistent.
+      </p>
+
+      <p>
+        Despite this, recurring classification codes, material logic, and formatting standards suggest a coherent internal system.
+      </p>
+
+      <p>
+        It is unclear why the organization ceased operations, or why so little documentation remains.
+      </p>
+
+      <!-- CTA -->
+      <div class="cta">
+        <strong>REQUEST FOR INFORMATION</strong>
+        If you have any knowledge, documents, or physical objects that may be connected to the United States Product Office, please submit information for review.
+        <br><br>
+        Contact: usproductoffice@protonmail.com
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      USPO ARCHIVE — RECONSTRUCTION IN PROGRESS
+    </div>
+
   </div>
-
-  <table class="history-table">
-    <thead>
-      <tr>
-        <th style="width: 25%;">Date</th>
-        <th>Event Narrative</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="event-row row-point1">
-        <td>1440</td>
-        <td>Collected. Initial acquisition of the historical artifact.</td>
-      </tr>
-      <tr class="event-row row-point2">
-        <td>1452</td>
-        <td>Buried during a period of siege to protect it from looters.</td>
-      </tr>
-      <tr class="event-row row-point3">
-        <td>1456-1458</td>
-        <td>Painted. Overlaid with new pigments to disguise its value.</td>
-      </tr>
-      <tr class="event-row row-point4">
-        <td>1520</td>
-        <td>Published in a local architectural ledger.</td>
-      </tr>
-      <tr class="event-row row-point5">
-        <td>1689</td>
-        <td>Damaged in a localized fire. Soot deposits discovered.</td>
-      </tr>
-      <tr class="event-row row-point6">
-        <td>1750-1762</td>
-        <td>Lost in transit between standard storage facilities.</td>
-      </tr>
-      <tr class="event-row row-point7">
-        <td>1899</td>
-        <td>Auctioned in Paris for a record-breaking amount.</td>
-      </tr>
-    </tbody>
-  </table>
 
 </body>
 </html>
